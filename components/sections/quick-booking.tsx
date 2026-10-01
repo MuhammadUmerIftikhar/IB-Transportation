@@ -23,7 +23,9 @@ function todayInVisitorTimezone() {
  * the value and show our own "Select …" hint while empty.
  */
 const pickerClass =
-  "block min-w-0 max-w-full appearance-none text-left [&::-webkit-date-and-time-value]:min-h-[1.5em] [&::-webkit-date-and-time-value]:text-left";
+  // line-height = inner height (48px field − 2px border) vertically centres the value on iOS,
+  // which otherwise pins it to the top once the native appearance is reset
+  "block min-w-0 max-w-full appearance-none py-0 text-left leading-[46px] [&::-webkit-date-and-time-value]:m-0 [&::-webkit-date-and-time-value]:text-left [&::-webkit-date-and-time-value]:leading-[46px]";
 
 function openPicker(input: HTMLInputElement) {
   try {
