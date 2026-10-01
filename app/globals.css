@@ -153,10 +153,15 @@
 }
 
 /* ---------- Splash screen ----------
-   Runs on CSS alone so it animates from the very first paint, before any JavaScript
-   loads (slow phones can take seconds to hydrate). JS only removes it. */
+   The percentage is driven by real page loading: lib/splash.ts (inlined in the HTML, runs
+   before any other JavaScript) sets --splash-p / --splash-f on #splash every frame. */
 @property --splash-p {
   syntax: "<integer>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --splash-f {
+  syntax: "<number>";
   inherits: true;
   initial-value: 0;
 }
@@ -165,19 +170,25 @@ html:has(#splash) {
   overflow: hidden;
 }
 
-.splash {
-  --splash-duration: 1.7s;
-  animation: splash-progress var(--splash-duration) cubic-bezier(0.45, 0, 0.2, 1) 0.15s forwards;
-}
-html[data-splash="fast"] .splash {
-  --splash-duration: 0.45s;
-}
-
 .splash-ring {
-  stroke-dashoffset: calc(578.05 * (1 - var(--splash-p) / 100));
+  stroke-dashoffset: calc(578.05 * (1 - var(--splash-f) / 100));
 }
 .splash-orbit {
-  transform: rotate(calc(var(--splash-p) * 3.6deg));
+  transform: rotate(calc(var(--splash-f) * 3.6deg));
+}
+
+/* Slow-connection note (after 4s without progress) and escape hatch (after 15s) */
+.splash-slow,
+.splash-continue {
+  display: none;
+}
+#splash[data-slow] .splash-slow {
+  display: flex;
+  animation: splash-fade 0.4s ease-out both;
+}
+#splash[data-stuck] .splash-continue {
+  display: inline-flex;
+  animation: splash-fade 0.4s ease-out both;
 }
 .splash-count::before {
   counter-reset: splash var(--splash-p);
@@ -209,11 +220,6 @@ html[data-splash="fast"] .splash-pop {
   animation-delay: 0s !important;
 }
 
-@keyframes splash-progress {
-  to {
-    --splash-p: 100;
-  }
-}
 @keyframes splash-pop {
   from {
     opacity: 0;
@@ -233,9 +239,6 @@ html[data-splash="fast"] .splash-pop {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .splash {
-    --splash-duration: 0.3s;
-  }
   .splash-float {
     animation: none;
   }

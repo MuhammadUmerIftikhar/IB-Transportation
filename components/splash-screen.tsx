@@ -15,30 +15,39 @@ const RADIUS = 92; // circumference 578.05 — matches .splash-ring in globals.c
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+function pageLoaded() {
+  return new Promise<void>((resolve) => {
+    if (document.readyState === "complete") resolve();
+    else window.addEventListener("load", () => resolve(), { once: true });
+  });
+}
+
 /**
- * Full-screen intro: logo inside a ring that fills 0 → 100%, then the screen slides up.
- * The ring, counter and letters are CSS animations (see "Splash screen" in globals.css), so
- * they run from the first paint even while JavaScript is still loading on slow phones.
- * JavaScript only waits for that animation to finish and plays the exit.
+ * Full-screen intro: logo inside a ring showing real loading progress (0 → 100%), then the
+ * screen slides up. The percentage is driven by lib/splash.ts, which is inlined in the HTML
+ * and tracks the page's actual resources from the first paint; the splash only leaves once
+ * the browser reports the page fully loaded and the ring shows 100%.
  */
 export function SplashProvider({ companyName, children }: { companyName: string; children: React.ReactNode }) {
   const [visible, setVisible] = useState(true);
   const [done, setDone] = useState(false);
 
+  // "done" flips as the exit starts while the screen still covers the page, so the hero
+  // re-mounts out of sight and animates in as the curtain lifts.
+  const leave = () => {
+    setDone(true);
+    setVisible(false);
+  };
+
   useEffect(() => {
     let cancelled = false;
-    const splash = document.getElementById("splash");
-    const progress = splash?.getAnimations().filter((a) => (a as CSSAnimation).animationName === "splash-progress") ?? [];
-    (async () => {
-      // Usually already finished on slow phones by the time JS runs; capped just in case.
-      await Promise.race([Promise.all(progress.map((a) => a.finished.catch(() => undefined))), wait(4000)]);
-      await wait(180); // let "100%" register
-      if (cancelled) return;
-      // "done" flips as the exit starts while the screen still covers the page, so the hero
-      // re-mounts out of sight and animates in as the curtain lifts.
-      setDone(true);
-      setVisible(false);
-    })();
+    (window.__ibSplashReady ?? pageLoaded())
+      .then(() => wait(250)) // let "100%" register
+      .then(() => {
+        if (cancelled) return;
+        setDone(true);
+        setVisible(false);
+      });
     return () => {
       cancelled = true;
     };
@@ -128,6 +137,22 @@ export function SplashProvider({ companyName, children }: { companyName: string;
               <p className="splash-fade mt-3 text-xs tracking-[0.3em] text-white/45 uppercase sm:text-sm">
                 Airport · Hotels · Tours · Groups
               </p>
+
+              {/* shown by lib/splash.ts when loading stalls */}
+              <p className="splash-slow mt-7 items-center gap-2 rounded-full border border-gold-400/30 bg-gold-400/10 px-4 py-2 text-sm text-gold-200">
+                <span className="relative flex size-2">
+                  <span className="absolute inset-0 animate-ping rounded-full bg-gold-400" />
+                  <span className="relative size-2 rounded-full bg-gold-400" />
+                </span>
+                Slow connection — still loading…
+              </p>
+              <button
+                type="button"
+                onClick={leave}
+                className="splash-continue mt-4 items-center rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-gold-400 hover:text-white"
+              >
+                Continue to site
+              </button>
             </motion.div>
           </motion.div>
         )}
