@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink-950: #050913;
+  --color-ink-900: #0a1122;
+  --color-ink-800: #111b33;
+  --color-ink-700: #1a2747;
+  --color-ink-600: #2a3a60;
+
+  --color-gold-200: #ffe7a3;
+  --color-gold-300: #ffd770;
+  --color-gold-400: #ffc53d;
+  --color-gold-500: #f5a800;
+  --color-gold-600: #d68800;
+
+  --color-sunset-400: #ff8a5c;
+  --color-sunset-500: #ff6a3d;
+  --color-sunset-600: #e9501f;
+
+  --color-sand-50: #fdfaf3;
+  --color-sand-100: #f8f1e2;
+  --color-sand-200: #efe3c8;
+
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #128c4a;
+
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --shadow-glow-gold: 0 14px 36px -12px rgb(245 168 0 / 0.65);
+  --shadow-glow-sunset: 0 22px 46px -14px rgb(255 106 61 / 0.6);
+  --shadow-glow-green: 0 14px 36px -12px rgb(37 211 102 / 0.6);
+  --shadow-soft: 0 24px 60px -28px rgb(10 17 34 / 0.35);
+  --shadow-lift: 0 40px 80px -32px rgb(10 17 34 / 0.45);
+
+  --animate-marquee: marquee 45s linear infinite;
+  --animate-shine: shine 4s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-ping-slow: ping-slow 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes shine {
+    from {
+      background-position: 0% 50%;
+    }
+    to {
+      background-position: 200% 50%;
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  @keyframes ping-slow {
+    0% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(1.9);
+      opacity: 0;
+    }
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-sand-50 font-sans text-ink-900 antialiased;
+  }
+  ::selection {
+    @apply bg-gold-400 text-ink-950;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-gold-500;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Animated gold → sunset gradient text */
+  .text-gradient {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-gold-300),
+      var(--color-gold-500) 30%,
+      var(--color-sunset-500) 55%,
+      var(--color-gold-400) 80%,
+      var(--color-gold-300)
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    @apply animate-shine;
+  }
+
+  .bg-brand-gradient {
+    background-image: linear-gradient(120deg, var(--color-gold-400), var(--color-gold-500) 45%, var(--color-sunset-500));
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  }
+
+  /* Vehicle illustration wheels: spin while the card is hovered or the vehicle is driving in */
+  .vehicle-wheel {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: wheel-spin 0.6s linear infinite;
+    animation-play-state: paused;
+  }
+  .group:hover .vehicle-wheel,
+  .is-driving .vehicle-wheel {
+    animation-play-state: running;
+  }
+}
+
+@keyframes wheel-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .vehicle-wheel,
+  .text-gradient,
+  .animate-marquee,
+  .animate-float,
+  .animate-ping-slow {
+    animation: none !important;
+  }
+}
