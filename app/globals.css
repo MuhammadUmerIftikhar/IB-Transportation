@@ -152,6 +152,80 @@
   }
 }
 
+/* ---------- Ambient loops ----------
+   Decorative infinite animations live in CSS (transform/opacity only), so the browser runs
+   them on the compositor instead of re-running JavaScript every frame. */
+.anim-blob-a {
+  animation: blob-a 18s ease-in-out infinite;
+}
+.anim-blob-b {
+  animation: blob-b 22s ease-in-out infinite;
+}
+.anim-glow {
+  animation: glow 8s ease-in-out infinite;
+}
+.anim-spin-slow {
+  animation: spin-slow 18s linear infinite;
+}
+.anim-typing {
+  animation: typing 0.6s ease-in-out infinite;
+}
+.anim-scroll-dot {
+  animation: scroll-dot 1.8s ease-in-out infinite;
+}
+@keyframes blob-a {
+  33% {
+    transform: translate(60px, -40px) scale(1.15);
+  }
+  66% {
+    transform: translate(-20px, 30px) scale(0.95);
+  }
+}
+@keyframes blob-b {
+  33% {
+    transform: translate(-50px, 50px);
+  }
+  66% {
+    transform: translate(30px, -20px);
+  }
+}
+@keyframes glow {
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes typing {
+  50% {
+    transform: translateY(-3px);
+  }
+}
+@keyframes scroll-dot {
+  50% {
+    transform: translateY(12px);
+    opacity: 0.2;
+  }
+}
+
+/* ---------- Phones & touch screens: lighter rendering ---------- */
+@media (max-width: 767px), (pointer: coarse) {
+  /* the shimmer animates background-position, which repaints the text every frame */
+  .text-gradient {
+    animation: none;
+  }
+  /* blurring what scrolls underneath is expensive on mobile GPUs; use near-solid fills */
+  .mobile-solid {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: rgb(5 9 19 / 0.97) !important;
+  }
+}
+
 /* ---------- Splash screen ----------
    The percentage is driven by real page loading: lib/splash.ts (inlined in the HTML, runs
    before any other JavaScript) sets --splash-p / --splash-f on #splash every frame. */
@@ -250,6 +324,12 @@ html[data-splash="fast"] .splash-pop {
   }
   .vehicle-wheel,
   .text-gradient,
+  .anim-blob-a,
+  .anim-blob-b,
+  .anim-glow,
+  .anim-spin-slow,
+  .anim-typing,
+  .anim-scroll-dot,
   .animate-marquee,
   .animate-float,
   .animate-ping-slow {

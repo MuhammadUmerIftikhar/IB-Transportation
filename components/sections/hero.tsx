@@ -5,6 +5,7 @@ import { CarFront, Clock3, MapPinned, MessageCircleMore } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { SiteSettings } from "@/lib/types";
 import { useSplashDone } from "../splash-screen";
+import { useLiteMotion } from "../ui/use-lite-motion";
 import { BookNowButton, CallButton } from "../ui/buttons";
 import { CmsImage } from "../ui/cms-image";
 import { easeOut } from "../ui/reveal";
@@ -52,11 +53,12 @@ export function Hero({ settings, booking }: { settings: HeroSettings; booking: B
   const contentY = useTransform(scrollYProgress, [0, 1], [0, -90]);
   const words = settings.heroTitle.split(" ");
   const splashDone = useSplashDone();
+  const lite = useLiteMotion(); // no scroll-linked parallax on phones
 
   return (
     <section ref={ref} id="top" className="relative isolate overflow-hidden bg-ink-950 text-white">
       {/* background photo with parallax */}
-      <motion.div style={{ y: imageY, scale: imageScale }} className="absolute inset-0 -z-20">
+      <motion.div style={lite ? { y: 0, scale: 1.08 } : { y: imageY, scale: imageScale }} className="absolute inset-0 -z-20">
         <CmsImage
           image={settings.heroImage}
           alt="Dubai skyline with the Burj Khalifa above a busy highway interchange"
@@ -71,22 +73,18 @@ export function Hero({ settings, booking }: { settings: HeroSettings; booking: B
       <div className="bg-grid absolute inset-0 -z-10 opacity-50 [mask-image:radial-gradient(ellipse_at_30%_40%,black,transparent_70%)]" />
 
       {/* glowing blobs */}
-      <motion.div
+      <div
         aria-hidden
-        animate={{ x: [0, 60, -20, 0], y: [0, -40, 30, 0], scale: [1, 1.15, 0.95, 1] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-24 -left-32 -z-10 size-[28rem] rounded-full bg-gold-500/25 blur-[110px]"
+        className="anim-blob-a absolute top-24 -left-32 -z-10 size-[28rem] rounded-full bg-gold-500/25 blur-[110px]"
       />
-      <motion.div
+      <div
         aria-hidden
-        animate={{ x: [0, -50, 30, 0], y: [0, 50, -20, 0] }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -right-24 bottom-0 -z-10 size-[26rem] rounded-full bg-sunset-500/20 blur-[120px]"
+        className="anim-blob-b absolute -right-24 bottom-0 -z-10 size-[26rem] rounded-full bg-sunset-500/20 blur-[120px]"
       />
 
       {/* Re-mounts when the splash screen finishes so the entrance animations play in view */}
       <div key={splashDone ? "ready" : "intro"} className="container-x relative grid min-h-[100svh] items-center gap-12 pt-32 pb-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10 lg:pt-36">
-        <motion.div style={{ y: contentY }}>
+        <motion.div style={lite ? { y: 0 } : { y: contentY }}>
           <motion.p
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -201,11 +199,7 @@ export function Hero({ settings, booking }: { settings: HeroSettings; booking: B
         className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-xs tracking-[0.25em] text-white/50 uppercase lg:flex"
       >
         <span className="flex h-10 w-6 justify-center rounded-full border border-white/30 pt-2">
-          <motion.span
-            animate={{ y: [0, 12, 0], opacity: [1, 0.2, 1] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            className="size-1.5 rounded-full bg-gold-400"
-          />
+          <span className="anim-scroll-dot size-1.5 rounded-full bg-gold-400" />
         </span>
         Scroll
       </motion.a>

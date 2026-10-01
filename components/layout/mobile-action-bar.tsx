@@ -21,7 +21,7 @@ export function MobileActionBar() {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className="fixed inset-x-0 bottom-0 z-40 px-3 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden"
     >
-      <div className="flex gap-2 rounded-full border border-white/10 bg-ink-950/90 p-1.5 shadow-lift backdrop-blur-xl">
+      <div className="mobile-solid flex gap-2 rounded-full border border-white/10 bg-ink-950/90 p-1.5 shadow-lift backdrop-blur-xl">
         <a
           href={telUrl(site.phone)}
           className="flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-white/10 font-display text-sm font-semibold text-white"

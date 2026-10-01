@@ -92,12 +92,7 @@ function PhoneMockup() {
               className="flex w-14 items-center justify-center gap-1 rounded-2xl rounded-bl-md bg-white px-3 py-3"
             >
               {[0, 1, 2].map((dot) => (
-                <motion.span
-                  key={dot}
-                  animate={{ y: [0, -3, 0] }}
-                  transition={{ duration: 0.6, repeat: Infinity, delay: dot * 0.15 }}
-                  className="size-1.5 rounded-full bg-ink-700/40"
-                />
+                <span key={dot} style={{ animationDelay: `${dot * 150}ms` }} className="anim-typing size-1.5 rounded-full bg-ink-700/40" />
               ))}
             </motion.div>
             <ChatBubble delay={2.5}>

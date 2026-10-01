@@ -12,6 +12,7 @@ import { BookNowButton, CallButton } from "../ui/buttons";
 import { CmsImage } from "../ui/cms-image";
 import { Icon } from "../ui/icon";
 import { easeOut } from "../ui/reveal";
+import { useLiteMotion } from "../ui/use-lite-motion";
 
 export function ServiceHero({ service }: { service: Pick<Service, "title" | "shortDescription" | "image" | "icon" | "highlights" | "whatsappMessage"> }) {
   const site = useSite();
@@ -21,20 +22,16 @@ export function ServiceHero({ service }: { service: Pick<Service, "title" | "sho
   const scale = useTransform(scrollYProgress, [0, 1], [1.05, 1.18]);
   const words = service.title.split(" ");
   const splashDone = useSplashDone();
+  const lite = useLiteMotion(); // no scroll-linked parallax on phones
 
   return (
     <section ref={ref} className="relative isolate overflow-hidden bg-ink-950 pt-40 pb-24 text-white sm:pt-48 sm:pb-32">
-      <motion.div style={{ y, scale }} className="absolute inset-0 -z-20">
+      <motion.div style={lite ? { y: 0, scale: 1.05 } : { y, scale }} className="absolute inset-0 -z-20">
         <CmsImage image={service.image} alt={service.title} fill priority sizes="100vw" className="object-cover" />
       </motion.div>
       <div className="absolute inset-0 -z-10 bg-linear-to-r from-ink-950 via-ink-950/80 to-ink-950/30" />
       <div className="absolute inset-0 -z-10 bg-linear-to-t from-ink-950 via-transparent to-ink-950/40" />
-      <motion.div
-        aria-hidden
-        animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-20 -left-20 -z-10 size-96 rounded-full bg-gold-500/25 blur-[100px]"
-      />
+      <div aria-hidden className="anim-blob-b absolute top-20 -left-20 -z-10 size-96 rounded-full bg-gold-500/25 blur-[100px]" />
 
       {/* Re-mounts when the splash screen finishes so the entrance animations play in view */}
       <div key={splashDone ? "ready" : "intro"} className="container-x">

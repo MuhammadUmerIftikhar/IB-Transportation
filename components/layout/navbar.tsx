@@ -112,7 +112,7 @@ export function Navbar() {
         <div
           className={`transition-[background-color,border-color,box-shadow] duration-500 ${
             scrolled || open
-              ? "border-b border-white/10 bg-ink-950/80 shadow-lift backdrop-blur-xl"
+              ? "mobile-solid border-b border-white/10 bg-ink-950/80 shadow-lift backdrop-blur-xl"
               : "border-b border-transparent bg-transparent"
           }`}
         >

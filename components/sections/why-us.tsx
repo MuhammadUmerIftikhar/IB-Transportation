@@ -8,17 +8,12 @@ import { CountUp } from "../ui/count-up";
 import { Icon } from "../ui/icon";
 import { easeOut, Stagger, StaggerItem } from "../ui/reveal";
 import { SectionHeading } from "../ui/section-heading";
+import { useLiteMotion } from "../ui/use-lite-motion";
 
 function RotatingBadge({ text }: { text: string }) {
   return (
     <div className="relative size-32 sm:size-36">
-      <motion.svg
-        viewBox="0 0 100 100"
-        className="absolute inset-0 size-full"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-        aria-hidden
-      >
+      <svg viewBox="0 0 100 100" className="anim-spin-slow absolute inset-0 size-full" aria-hidden>
         <defs>
           <path id="badge-circle" d="M50 50m-38 0a38 38 0 1 1 76 0a38 38 0 1 1-76 0" />
         </defs>
@@ -28,7 +23,7 @@ function RotatingBadge({ text }: { text: string }) {
             {text}
           </textPath>
         </text>
-      </motion.svg>
+      </svg>
       <span className="absolute inset-[30%] flex items-center justify-center rounded-full bg-ink-950 font-display text-lg font-extrabold text-gold-300">
         24/7
       </span>
@@ -41,6 +36,7 @@ export function WhyUs({ features, stats }: { features: Feature[]; stats: Stat[] 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const bigY = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
   const smallY = useTransform(scrollYProgress, [0, 1], ["20%", "-20%"]);
+  const lite = useLiteMotion(); // no scroll-linked parallax on phones
 
   return (
     <section id="why-us" className="relative overflow-hidden bg-sand-100 py-24 sm:py-32">
@@ -55,14 +51,14 @@ export function WhyUs({ features, stats }: { features: Feature[]; stats: Stat[] 
             transition={{ duration: 1, ease: easeOut }}
             className="relative aspect-[4/5] overflow-hidden rounded-[36px] shadow-lift"
           >
-            <motion.div style={{ y: bigY }} className="absolute -inset-[8%]">
+            <motion.div style={lite ? { y: 0 } : { y: bigY }} className="absolute -inset-[8%]">
               <CmsImage image="/images/chauffeur.jpg" alt="Professional driver at the wheel" fill sizes="(min-width: 1024px) 40vw, 90vw" className="object-cover" />
             </motion.div>
             <div className="absolute inset-0 bg-linear-to-t from-ink-950/50 to-transparent" />
           </motion.div>
 
           <motion.div
-            style={{ y: smallY }}
+            style={lite ? { y: 0 } : { y: smallY }}
             className="absolute -right-4 bottom-0 w-[55%] overflow-hidden rounded-[28px] border-[6px] border-sand-100 shadow-lift sm:-right-10"
           >
             <div className="relative aspect-[4/3]">

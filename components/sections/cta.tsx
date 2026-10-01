@@ -8,6 +8,7 @@ import { useSite } from "../site-provider";
 import { BookNowButton, CallButton } from "../ui/buttons";
 import { CmsImage } from "../ui/cms-image";
 import { easeOut } from "../ui/reveal";
+import { useLiteMotion } from "../ui/use-lite-motion";
 import { WhatsAppIcon } from "../ui/whatsapp-icon";
 
 export function Cta() {
@@ -16,6 +17,7 @@ export function Cta() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const scale = useTransform(scrollYProgress, [0, 0.5], [1.25, 1]);
   const radius = useTransform(scrollYProgress, [0, 0.4], [80, 36]);
+  const lite = useLiteMotion(); // no scroll-linked effects on phones
 
   const tiles = [
     { icon: Phone, title: "Call us", value: site.phone, href: telUrl(site.phone) },
@@ -34,19 +36,14 @@ export function Cta() {
     <section id="contact" className="relative bg-sand-50 px-3 pb-24 sm:px-6 sm:pb-32">
       <motion.div
         ref={ref}
-        style={{ borderRadius: radius }}
+        style={{ borderRadius: lite ? 36 : radius }}
         className="relative isolate mx-auto max-w-7xl overflow-hidden bg-ink-950 px-6 py-20 text-white sm:px-12 sm:py-28"
       >
-        <motion.div style={{ scale }} className="absolute inset-0 -z-20">
+        <motion.div style={lite ? { scale: 1 } : { scale }} className="absolute inset-0 -z-20">
           <CmsImage image="/images/city-lights.jpg" alt="Dubai streets with light trails at night" fill sizes="100vw" className="object-cover" />
         </motion.div>
         <div className="absolute inset-0 -z-10 bg-linear-to-br from-ink-950/95 via-ink-950/80 to-ink-950/50" />
-        <motion.div
-          aria-hidden
-          animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-32 -right-20 -z-10 size-96 rounded-full bg-gold-500/30 blur-3xl"
-        />
+        <div aria-hidden className="anim-glow absolute -top-32 -right-20 -z-10 size-96 rounded-full bg-gold-500/30 opacity-50 blur-3xl" />
 
         <div className="grid items-center gap-14 lg:grid-cols-[1.2fr_1fr]">
           <motion.div

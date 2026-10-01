@@ -9,6 +9,7 @@ import { useSite } from "../site-provider";
 import { BookNowButton } from "../ui/buttons";
 import { CmsImage } from "../ui/cms-image";
 import { easeOut } from "../ui/reveal";
+import { useLiteMotion } from "../ui/use-lite-motion";
 
 const chips = ["Hotel & home pickup", "Sunset dune drives", "Families & groups", "All 7 emirates"];
 
@@ -19,10 +20,11 @@ export function TourBanner({ exploreHref = "/#services" }: { exploreHref?: strin
   // Image box is 140% of the section (-20% top & bottom); ±12% travel keeps it fully covered.
   const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
   const textX = useTransform(scrollYProgress, [0, 1], ["8%", "-28%"]);
+  const lite = useLiteMotion(); // no scroll-linked parallax on phones
 
   return (
     <section ref={ref} className="relative isolate overflow-hidden bg-ink-950 py-28 text-white sm:py-40">
-      <motion.div style={{ y }} className="absolute -inset-y-[20%] inset-x-0 -z-20">
+      <motion.div style={lite ? { y: 0 } : { y }} className="absolute -inset-y-[20%] inset-x-0 -z-20">
         <CmsImage image="/images/desert-safari.jpg" alt="4x4 driving over golden sand dunes" fill sizes="100vw" className="object-cover" />
       </motion.div>
       <div className="absolute inset-0 -z-10 bg-linear-to-r from-ink-950/90 via-ink-950/55 to-ink-950/10" />
@@ -31,7 +33,7 @@ export function TourBanner({ exploreHref = "/#services" }: { exploreHref?: strin
       {/* giant drifting word */}
       <motion.p
         aria-hidden
-        style={{ x: textX }}
+        style={lite ? { x: "-6%" } : { x: textX }}
         className="pointer-events-none absolute bottom-0 left-0 -z-10 font-display text-[22vw] leading-none font-extrabold tracking-tighter whitespace-nowrap text-white/[0.05] uppercase"
       >
         Desert Safari · UAE Tours
