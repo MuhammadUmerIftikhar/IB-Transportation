@@ -152,6 +152,95 @@
   }
 }
 
+/* ---------- Splash screen ----------
+   Runs on CSS alone so it animates from the very first paint, before any JavaScript
+   loads (slow phones can take seconds to hydrate). JS only removes it. */
+@property --splash-p {
+  syntax: "<integer>";
+  inherits: true;
+  initial-value: 0;
+}
+
+html:has(#splash) {
+  overflow: hidden;
+}
+
+.splash {
+  --splash-duration: 1.7s;
+  animation: splash-progress var(--splash-duration) cubic-bezier(0.45, 0, 0.2, 1) 0.15s forwards;
+}
+html[data-splash="fast"] .splash {
+  --splash-duration: 0.45s;
+}
+
+.splash-ring {
+  stroke-dashoffset: calc(578.05 * (1 - var(--splash-p) / 100));
+}
+.splash-orbit {
+  transform: rotate(calc(var(--splash-p) * 3.6deg));
+}
+.splash-count::before {
+  counter-reset: splash var(--splash-p);
+  content: counter(splash);
+}
+
+.splash-pop {
+  animation: splash-pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.splash-float {
+  animation: splash-bob 2.6s ease-in-out infinite;
+}
+@keyframes splash-bob {
+  50% {
+    transform: translateY(-5px);
+  }
+}
+.splash-letter {
+  display: inline-block;
+  animation: splash-letter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.splash-fade {
+  animation: splash-fade 0.6s ease-out 0.7s both;
+}
+html[data-splash="fast"] .splash-letter,
+html[data-splash="fast"] .splash-fade,
+html[data-splash="fast"] .splash-pop {
+  animation-duration: 0.2s;
+  animation-delay: 0s !important;
+}
+
+@keyframes splash-progress {
+  to {
+    --splash-p: 100;
+  }
+}
+@keyframes splash-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+@keyframes splash-letter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes splash-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash {
+    --splash-duration: 0.3s;
+  }
+  .splash-float {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

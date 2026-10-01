@@ -51,7 +51,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${jakarta.variable}`} data-scroll-behavior="smooth">
+    // suppressHydrationWarning: the splash boot script sets data-splash on <html> before React hydrates
+    <html lang="en" className={`${outfit.variable} ${jakarta.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );

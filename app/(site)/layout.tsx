@@ -8,6 +8,7 @@ import { SplashProvider } from "@/components/splash-screen";
 import { toDigits } from "@/lib/contact";
 import { getServices, getSettings } from "@/lib/data";
 import { siteUrl } from "@/lib/site";
+import { splashBootScript } from "@/lib/splash";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const [settings, services] = await Promise.all([getSettings(), getServices()]);
@@ -47,6 +48,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       }}
     >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
+      <script dangerouslySetInnerHTML={{ __html: splashBootScript }} />
       <SplashProvider companyName={settings.companyName}>
         <ScrollProgress />
         <Navbar />
