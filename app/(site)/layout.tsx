@@ -4,6 +4,7 @@ import { MobileActionBar } from "@/components/layout/mobile-action-bar";
 import { Navbar } from "@/components/layout/navbar";
 import { ScrollProgress } from "@/components/layout/scroll-progress";
 import { SiteProvider } from "@/components/site-provider";
+import { SplashProvider } from "@/components/splash-screen";
 import { toDigits } from "@/lib/contact";
 import { getServices, getSettings } from "@/lib/data";
 import { siteUrl } from "@/lib/site";
@@ -46,12 +47,14 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       }}
     >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
-      <ScrollProgress />
-      <Navbar />
-      <main className="overflow-x-clip">{children}</main>
-      <Footer settings={settings} services={services} />
-      <FloatingWhatsApp />
-      <MobileActionBar />
+      <SplashProvider companyName={settings.companyName}>
+        <ScrollProgress />
+        <Navbar />
+        <main className="overflow-x-clip">{children}</main>
+        <Footer settings={settings} services={services} />
+        <FloatingWhatsApp />
+        <MobileActionBar />
+      </SplashProvider>
     </SiteProvider>
   );
 }

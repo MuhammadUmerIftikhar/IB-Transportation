@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRef } from "react";
 import { serviceMessage } from "@/lib/contact";
 import type { Service } from "@/lib/types";
+import { useSplashDone } from "../splash-screen";
 import { useSite } from "../site-provider";
 import { BookNowButton, CallButton } from "../ui/buttons";
 import { CmsImage } from "../ui/cms-image";
@@ -19,6 +20,7 @@ export function ServiceHero({ service }: { service: Pick<Service, "title" | "sho
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
   const scale = useTransform(scrollYProgress, [0, 1], [1.05, 1.18]);
   const words = service.title.split(" ");
+  const splashDone = useSplashDone();
 
   return (
     <section ref={ref} className="relative isolate overflow-hidden bg-ink-950 pt-40 pb-24 text-white sm:pt-48 sm:pb-32">
@@ -34,7 +36,8 @@ export function ServiceHero({ service }: { service: Pick<Service, "title" | "sho
         className="absolute top-20 -left-20 -z-10 size-96 rounded-full bg-gold-500/25 blur-[100px]"
       />
 
-      <div className="container-x">
+      {/* Re-mounts when the splash screen finishes so the entrance animations play in view */}
+      <div key={splashDone ? "ready" : "intro"} className="container-x">
         <motion.nav
           aria-label="Breadcrumb"
           initial={{ opacity: 0, y: -10 }}

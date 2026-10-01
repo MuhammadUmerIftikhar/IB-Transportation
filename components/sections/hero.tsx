@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion"
 import { CarFront, Clock3, MapPinned, MessageCircleMore } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { SiteSettings } from "@/lib/types";
+import { useSplashDone } from "../splash-screen";
 import { BookNowButton, CallButton } from "../ui/buttons";
 import { CmsImage } from "../ui/cms-image";
 import { easeOut } from "../ui/reveal";
@@ -50,6 +51,7 @@ export function Hero({ settings, booking }: { settings: HeroSettings; booking: B
   const imageScale = useTransform(scrollYProgress, [0, 1], [1.08, 1.2]);
   const contentY = useTransform(scrollYProgress, [0, 1], [0, -90]);
   const words = settings.heroTitle.split(" ");
+  const splashDone = useSplashDone();
 
   return (
     <section ref={ref} id="top" className="relative isolate overflow-hidden bg-ink-950 text-white">
@@ -82,7 +84,8 @@ export function Hero({ settings, booking }: { settings: HeroSettings; booking: B
         className="absolute -right-24 bottom-0 -z-10 size-[26rem] rounded-full bg-sunset-500/20 blur-[120px]"
       />
 
-      <div className="container-x relative grid min-h-[100svh] items-center gap-12 pt-32 pb-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10 lg:pt-36">
+      {/* Re-mounts when the splash screen finishes so the entrance animations play in view */}
+      <div key={splashDone ? "ready" : "intro"} className="container-x relative grid min-h-[100svh] items-center gap-12 pt-32 pb-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10 lg:pt-36">
         <motion.div style={{ y: contentY }}>
           <motion.p
             initial={{ opacity: 0, y: -12 }}
