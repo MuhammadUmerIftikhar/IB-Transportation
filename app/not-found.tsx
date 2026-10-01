@@ -14,7 +14,7 @@ export default async function NotFound() {
       <div className="pointer-events-none absolute top-1/3 left-1/2 size-[30rem] -translate-x-1/2 rounded-full bg-gold-500/20 blur-3xl" />
       <div className="relative">
         <Link href="/" className="inline-flex" aria-label={`${settings.companyName} — home`}>
-          <LogoMark className="size-14" />
+          <LogoMark className="h-20 w-auto drop-shadow-[0_8px_24px_rgba(37,99,235,0.5)]" />
         </Link>
         <p className="text-gradient mt-8 font-display text-[7rem] leading-none font-extrabold tracking-tighter sm:text-[10rem]">404</p>
         <div className="group is-driving mx-auto -mt-4 w-64 animate-float">

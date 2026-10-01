@@ -10,6 +10,8 @@ export const contentType = "image/png";
 export default async function OpengraphImage() {
   const hero = await readFile(path.join(process.cwd(), "public/images/night-drive.jpg"));
   const heroSrc = `data:image/jpeg;base64,${hero.toString("base64")}`;
+  const logo = await readFile(path.join(process.cwd(), "public/images/ib-logo.png"));
+  const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
   const { companyName, phone } = fallbackSettings;
 
   return new ImageResponse(
@@ -26,22 +28,8 @@ export default async function OpengraphImage() {
         />
         <div style={{ position: "relative", display: "flex", flexDirection: "column", padding: "72px 80px", color: "white" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-            <div
-              style={{
-                width: 72,
-                height: 72,
-                borderRadius: 20,
-                background: "linear-gradient(135deg, #ffd770, #f5a800 50%, #ff6a3d)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#0a1122",
-                fontSize: 38,
-                fontWeight: 800,
-              }}
-            >
-              IB
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={logoSrc} alt="" width={110} height={88} style={{ objectFit: "contain" }} />
             <div style={{ fontSize: 34, fontWeight: 700, letterSpacing: -1 }}>{companyName}</div>
           </div>
           <div style={{ marginTop: 56, fontSize: 76, fontWeight: 800, lineHeight: 1.02, letterSpacing: -3, maxWidth: 820 }}>

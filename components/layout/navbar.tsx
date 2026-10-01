@@ -153,7 +153,10 @@ export function Navbar() {
               >
                 <Phone className="size-[18px]" aria-hidden />
               </a>
-              <BookNowButton size="sm" className="hidden sm:inline-flex" />
+              {/* Phones use the hero CTA and the bottom action bar instead */}
+              <div className="hidden sm:block">
+                <BookNowButton size="sm" />
+              </div>
               <button
                 type="button"
                 onClick={() => setOpen((value) => !value)}

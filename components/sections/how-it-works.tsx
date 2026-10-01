@@ -3,6 +3,7 @@
 import { motion, useScroll, useSpring } from "framer-motion";
 import { CarFront, CheckCheck, MessageCircleMore, MousePointerClick } from "lucide-react";
 import { useRef } from "react";
+import { LogoMark } from "../logo";
 import { useSite } from "../site-provider";
 import { BookNowButton } from "../ui/buttons";
 import { easeOut } from "../ui/reveal";
@@ -57,8 +58,8 @@ function PhoneMockup() {
       >
         <div className="overflow-hidden rounded-[34px] bg-[#efeae2]">
           <div className="flex items-center gap-3 bg-[#075e54] px-4 pt-7 pb-3 text-white">
-            <span className="flex size-9 items-center justify-center rounded-full bg-gold-400 font-display text-sm font-extrabold text-ink-950">
-              IB
+            <span className="flex size-9 items-center justify-center rounded-full bg-ink-950 p-1">
+              <LogoMark className="h-auto w-full" />
             </span>
             <span className="leading-tight">
               <span className="block text-sm font-semibold">{site.companyName}</span>
