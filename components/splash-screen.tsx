@@ -66,6 +66,9 @@ export function SplashProvider({ companyName, children }: { companyName: string;
         {visible && (
           <motion.div
             id="splash"
+            // lib/splash.ts updates this element's progress variables and data-slow/data-stuck
+            // before React hydrates, so its attributes legitimately differ from the server HTML.
+            suppressHydrationWarning
             role="status"
             aria-live="polite"
             aria-label={`Loading ${companyName}`}
