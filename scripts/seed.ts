@@ -61,15 +61,20 @@ async function main() {
     });
   }
 
+  // Vehicle photos are also added to vehicles that already exist but have no photo yet
+  // (setIfMissing never overwrites a photo chosen in the Studio).
+  const photoPatches: { _id: string; image: unknown; facing?: string }[] = [];
   for (const [i, { _id, slug, image, ...vehicle }] of fallbackVehicles.entries()) {
+    const photo = image ? await uploadImage(image, vehicle.name) : undefined;
     docs.push({
       _id,
       _type: "vehicle",
       ...vehicle,
       slug: { _type: "slug", current: slug },
-      ...(image ? { image: await uploadImage(image, vehicle.name) } : {}),
+      ...(photo ? { image: photo } : {}),
       order: (i + 1) * 10,
     });
+    if (photo) photoPatches.push({ _id, image: photo, facing: vehicle.facing });
   }
 
   for (const [i, { _id, ...faq }] of fallbackFaqs.entries()) {
@@ -81,6 +86,12 @@ async function main() {
     const withId = doc as { _id: string; _type: string };
     if (force) tx.createOrReplace(withId);
     else tx.createIfNotExists(withId);
+  }
+  if (!force) {
+    const withoutPhoto = new Set(await client.fetch<string[]>(`*[_type == "vehicle" && !defined(image)]._id`));
+    for (const { _id, image, facing } of photoPatches) {
+      if (withoutPhoto.has(_id)) tx.patch(_id, (patch) => patch.set({ image, ...(facing ? { facing } : {}) }));
+    }
   }
   await tx.commit();
   console.log(`✓ ${docs.length} documents ${force ? "written" : "created (existing ones were left untouched)"}.`);

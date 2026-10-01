@@ -106,6 +106,8 @@ export interface Vehicle {
   description: string;
   features: string[];
   image?: ImageAsset;
+  /** Which way the vehicle in the photo points; it drives in from behind. */
+  facing?: "left" | "right";
 }
 
 export interface Faq {

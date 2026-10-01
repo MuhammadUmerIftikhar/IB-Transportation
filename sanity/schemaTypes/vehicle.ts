@@ -61,6 +61,22 @@ export const vehicle = defineType({
       fields: [defineField({ name: "alt", title: "Alternative text", type: "string" })],
     }),
     defineField({
+      name: "facing",
+      title: "Photo faces",
+      description: "Which way the front of the vehicle points in the photo — it drives onto the card from behind.",
+      type: "string",
+      options: {
+        list: [
+          { title: "Right →", value: "right" },
+          { title: "← Left", value: "left" },
+        ],
+        layout: "radio",
+        direction: "horizontal",
+      },
+      initialValue: "right",
+      hidden: ({ parent }) => !parent?.image,
+    }),
+    defineField({
       name: "order",
       description: "Lower numbers are shown first",
       type: "number",

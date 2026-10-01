@@ -22,6 +22,8 @@ const presets = [
 
 function VehicleStage({ vehicle }: { vehicle: Vehicle }) {
   const [driving, setDriving] = useState(false);
+  // Illustrations always face right; photos say which way they face.
+  const right = !vehicle.image || vehicle.facing !== "left";
   // The in-view trigger sits on the stage: the vehicle itself starts off-stage, clipped by
   // `overflow-hidden`, so an observer on it would never fire.
   return (
@@ -35,32 +37,61 @@ function VehicleStage({ vehicle }: { vehicle: Vehicle }) {
       <div className="absolute bottom-6 left-1/2 h-24 w-3/4 -translate-x-1/2 rounded-full bg-gold-400/25 blur-2xl transition-all duration-700 group-hover:w-full group-hover:bg-gold-400/40" />
       <div className="absolute inset-x-6 bottom-[30px] h-px bg-white/10" />
 
-      {/* speed lines */}
-      <div aria-hidden className="absolute top-1/2 left-4 flex w-1/4 flex-col gap-3">
+      {/* speed lines, trailing behind the vehicle */}
+      <div
+        aria-hidden
+        className={`absolute top-1/2 flex w-1/4 flex-col gap-3 ${right ? "left-4 items-end" : "right-4 items-start"}`}
+      >
         {[0, 1, 2].map((i) => (
           <span
             key={i}
             style={{ transitionDelay: `${i * 70}ms`, width: `${100 - i * 25}%` }}
-            className="h-0.5 origin-right scale-x-0 rounded-full bg-linear-to-r from-transparent to-gold-300/70 transition-transform duration-500 group-hover:scale-x-100"
+            className={`h-0.5 scale-x-0 rounded-full transition-transform duration-500 group-hover:scale-x-100 ${
+              right ? "origin-right bg-linear-to-r from-transparent to-gold-300/70" : "origin-left bg-linear-to-l from-transparent to-gold-300/70"
+            }`}
           />
         ))}
       </div>
 
       <motion.div
         variants={{
-          parked: { x: "-120%", opacity: 0 },
-          drive: { x: "0%", opacity: 1, transition: { duration: 1.4, ease: easeOut } },
+          parked: { x: right ? "-120%" : "120%", opacity: 0, rotate: 0 },
+          drive: {
+            x: "0%",
+            opacity: 1,
+            // nose dips as it brakes into place
+            rotate: [0, 0, right ? 1.8 : -1.8, 0],
+            transition: {
+              x: { duration: 1.3, ease: easeOut },
+              opacity: { duration: 0.4 },
+              rotate: { duration: 1.6, times: [0, 0.62, 0.8, 1], ease: "easeInOut" },
+            },
+          },
         }}
+        style={{ originY: 1 }}
         onAnimationStart={() => setDriving(true)}
         onAnimationComplete={() => setDriving(false)}
-        className={`absolute inset-x-4 bottom-2 flex h-full items-end justify-center transition-transform duration-700 ease-spring group-hover:translate-x-3 ${driving ? "is-driving" : ""}`}
+        className={`absolute inset-x-4 bottom-2 flex h-full items-end justify-center ${driving ? "is-driving" : ""}`}
       >
         {vehicle.image ? (
-          <div className="relative h-[85%] w-full">
-            <CmsImage image={vehicle.image} alt={vehicle.name} fill sizes="(min-width: 1024px) 30vw, 90vw" className="object-contain object-bottom drop-shadow-2xl" />
+          <div
+            className={`relative h-[84%] w-full transition-transform duration-700 ease-spring group-hover:-translate-y-1.5 group-hover:scale-[1.05] ${
+              right ? "group-hover:translate-x-3" : "group-hover:-translate-x-3"
+            }`}
+          >
+            {/* ground shadow */}
+            <div className="absolute inset-x-[12%] bottom-0 h-4 translate-y-1/2 rounded-[50%] bg-black/70 blur-md transition-all duration-700 group-hover:inset-x-[16%] group-hover:opacity-70" />
+            <CmsImage
+              image={vehicle.image}
+              alt={vehicle.name}
+              fill
+              placeholder="empty"
+              sizes="(min-width: 1024px) 30vw, 90vw"
+              className="object-contain object-bottom drop-shadow-[0_14px_18px_rgba(0,0,0,0.5)]"
+            />
           </div>
         ) : (
-          <VehicleIllustration type={vehicle.type} title={`${vehicle.name} illustration`} className="w-full max-w-[340px] drop-shadow-[0_18px_24px_rgba(0,0,0,0.45)]" />
+          <VehicleIllustration type={vehicle.type} title={`${vehicle.name} illustration`} className="w-full max-w-[340px] drop-shadow-[0_18px_24px_rgba(0,0,0,0.45)] transition-transform duration-700 ease-spring group-hover:translate-x-3" />
         )}
       </motion.div>
     </motion.div>

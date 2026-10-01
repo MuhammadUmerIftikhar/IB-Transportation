@@ -17,7 +17,7 @@ export const servicesQuery = defineQuery(`*[_type == "service" && defined(slug.c
 
 export const vehiclesQuery = defineQuery(`*[_type == "vehicle"] | order(order asc, passengers asc){
   _id, name, "slug": slug.current, type, tagline, passengers, luggage, models,
-  description, features, image${image}
+  description, features, image${image}, facing
 }`);
 
 export const faqsQuery = defineQuery(`*[_type == "faq"] | order(order asc, _createdAt asc){

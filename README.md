@@ -60,4 +60,4 @@ sanity/schemaTypes/    Content model
 
 ## Image credits
 
-Photos in `public/images` are from [Unsplash](https://unsplash.com) under the Unsplash License (free for commercial use). Replace them with your own photos any time via Sanity.
+Photos in `public/images` (including the vehicle cut-outs in `public/images/fleet`) are from [Unsplash](https://unsplash.com) and [Pexels](https://www.pexels.com) under their free licenses (commercial use allowed, no attribution required). Vehicle backgrounds were removed and licence plates blurred. Replace them with photos of your own fleet any time via Sanity — set "Photo faces" so the vehicle drives in the right way.

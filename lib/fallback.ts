@@ -265,6 +265,8 @@ export const fallbackVehicles: Vehicle[] = [
     description:
       "A smooth, quiet ride for solo travellers, couples and business guests. Ideal for airport runs, hotel transfers and meetings across the city.",
     features: ["Air-conditioned", "Airport & city rides", "Business travel"],
+    image: "/images/fleet/sedan.webp",
+    facing: "right",
   },
   {
     _id: "vehicle-suv",
@@ -278,6 +280,8 @@ export const fallbackVehicles: Vehicle[] = [
     description:
       "Commanding, spacious and built for UAE roads. Extra legroom and luggage space make it a favourite for VIP transfers, families and desert trips.",
     features: ["Air-conditioned", "Extra legroom", "Great for desert trips"],
+    image: "/images/fleet/suv.webp",
+    facing: "right",
   },
   {
     _id: "vehicle-seven-seater",
@@ -291,6 +295,8 @@ export const fallbackVehicles: Vehicle[] = [
     description:
       "Room for the whole family in one comfortable vehicle. Perfect for airport pickups with kids, family tours and small group outings.",
     features: ["Air-conditioned", "Family friendly", "Generous boot space"],
+    image: "/images/fleet/seven-seater.webp",
+    facing: "left",
   },
   {
     _id: "vehicle-van",
@@ -304,6 +310,8 @@ export const fallbackVehicles: Vehicle[] = [
     description:
       "A roomy van for medium-sized groups who want to travel together. Comfortable seating and space for luggage, shopping or sports gear.",
     features: ["Air-conditioned", "Easy sliding doors", "Group friendly"],
+    image: "/images/fleet/van.webp",
+    facing: "left",
   },
   {
     _id: "vehicle-mini-van",
@@ -317,6 +325,8 @@ export const fallbackVehicles: Vehicle[] = [
     description:
       "The go-to choice for bigger groups, staff transport and city tours. High roof, comfortable seats and plenty of room for everyone's bags.",
     features: ["Air-conditioned", "High roof", "Staff & tour transport"],
+    image: "/images/fleet/mini-van.webp",
+    facing: "left",
   },
   {
     _id: "vehicle-bus",
@@ -330,6 +340,8 @@ export const fallbackVehicles: Vehicle[] = [
     description:
       "From mini buses to full-size coaches, we move big groups in one go — weddings, corporate events, school trips and sightseeing tours.",
     features: ["Air-conditioned", "22 – 50 seat options", "Large luggage hold"],
+    image: "/images/fleet/bus.webp",
+    facing: "left",
   },
 ];
 
