@@ -17,8 +17,33 @@ function todayInVisitorTimezone() {
   return new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 }
 
+/**
+ * Date/time inputs: iOS Safari gives them an intrinsic min-width (they overflow the card)
+ * and shows nothing when empty, so reset their appearance, let them shrink, left-align
+ * the value and show our own "Select …" hint while empty.
+ */
+const pickerClass =
+  "block min-w-0 max-w-full appearance-none text-left [&::-webkit-date-and-time-value]:min-h-[1.5em] [&::-webkit-date-and-time-value]:text-left";
+
+function openPicker(input: HTMLInputElement) {
+  try {
+    input.showPicker?.();
+  } catch {
+    // not allowed here (e.g. already open) — the browser's own behaviour still applies
+  }
+}
+
+function PickerHint({ show, children }: { show: boolean; children: React.ReactNode }) {
+  if (!show) return null;
+  return (
+    <span className="pointer-events-none absolute inset-y-0 left-10 flex items-center text-base text-ink-700/40 peer-focus:hidden sm:text-[15px]">
+      {children}
+    </span>
+  );
+}
+
 const fieldClass =
-  "peer h-12 w-full rounded-xl border border-ink-900/10 bg-sand-50 pr-3 pl-10 text-[15px] text-ink-900 outline-none transition placeholder:text-ink-700/40 focus:border-gold-500 focus:bg-white focus:ring-4 focus:ring-gold-400/20";
+  "peer h-12 w-full rounded-xl border border-ink-900/10 bg-sand-50 pr-3 pl-10 text-base text-ink-900 sm:text-[15px] outline-none transition placeholder:text-ink-700/40 focus:border-gold-500 focus:bg-white focus:ring-4 focus:ring-gold-400/20";
 
 function Field({
   label,
@@ -33,7 +58,7 @@ function Field({
 }) {
   const id = useId();
   return (
-    <div>
+    <div className="min-w-0">
       <label htmlFor={id} className="mb-1.5 block text-xs font-semibold tracking-wide text-ink-700/70 uppercase">
         {label}
       </label>
@@ -231,21 +256,37 @@ export function QuickBooking({
         </Field>
         <Field label="Date" icon={CalendarDays}>
           {(id) => (
-            <input
-              id={id}
-              type="date"
-              value={date}
-              onFocus={(e) => {
-                // Block past dates. Set on focus (not render) so server and client HTML match.
-                e.currentTarget.min = todayInVisitorTimezone();
-              }}
-              onChange={(e) => setDate(e.target.value)}
-              className={fieldClass}
-            />
+            <>
+              <input
+                id={id}
+                type="date"
+                value={date}
+                onFocus={(e) => {
+                  // Block past dates. Set on focus (not render) so server and client HTML match.
+                  e.currentTarget.min = todayInVisitorTimezone();
+                }}
+                onChange={(e) => setDate(e.target.value)}
+                onClick={(e) => openPicker(e.currentTarget)}
+                className={`${fieldClass} ${pickerClass} ${date ? "" : "text-transparent focus:text-ink-900"}`}
+              />
+              <PickerHint show={!date}>Select date</PickerHint>
+            </>
           )}
         </Field>
         <Field label="Time" icon={Clock3}>
-          {(id) => <input id={id} type="time" value={time} onChange={(e) => setTime(e.target.value)} className={fieldClass} />}
+          {(id) => (
+            <>
+              <input
+                id={id}
+                type="time"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+                onClick={(e) => openPicker(e.currentTarget)}
+                className={`${fieldClass} ${pickerClass} ${time ? "" : "text-transparent focus:text-ink-900"}`}
+              />
+              <PickerHint show={!time}>Select time</PickerHint>
+            </>
+          )}
         </Field>
         <div className="sm:col-span-2">
           <Field label="Your name (optional)" icon={User}>
