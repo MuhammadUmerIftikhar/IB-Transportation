@@ -92,6 +92,7 @@ export interface Service {
   highlights: string[];
   body?: PortableTextBlock[];
   whatsappMessage?: string;
+  _updatedAt?: string;
 }
 
 export interface Vehicle {
@@ -108,6 +109,25 @@ export interface Vehicle {
   image?: ImageAsset;
   /** Which way the vehicle in the photo points; it drives in from behind. */
   facing?: "left" | "right";
+}
+
+/** A point-to-point transfer, e.g. "Dubai Airport (DXB) → Abu Dhabi". Each gets its own landing page. */
+export interface TransferRoute {
+  _id: string;
+  slug: string;
+  /** e.g. "Dubai Airport (DXB)" */
+  from: string;
+  /** e.g. "Abu Dhabi" */
+  to: string;
+  /** Approximate road distance in km */
+  distanceKm: number;
+  /** e.g. "1 hr 30 min – 1 hr 45 min" */
+  duration: string;
+  /** Unique intro paragraph for this route */
+  summary: string;
+  highlights: string[];
+  image?: ImageAsset;
+  _updatedAt?: string;
 }
 
 export interface Faq {

@@ -7,7 +7,7 @@
  * Relative imports only: this file is also loaded by the seed script outside Next.js.
  */
 import type { PortableTextBlock } from "next-sanity";
-import type { Faq, Service, SiteSettings, Testimonial, Vehicle } from "./types";
+import type { Faq, Service, SiteSettings, Testimonial, TransferRoute, Vehicle } from "./types";
 
 function paragraphs(id: string, ...texts: string[]): PortableTextBlock[] {
   return texts.map((text, i) => ({
@@ -103,9 +103,9 @@ export const fallbackSettings: SiteSettings = {
     "Palm Jumeirah",
   ],
   socialLinks: {},
-  seoTitle: "IB Transportation | Airport Transfers, Tours & Vehicle Hire in the UAE",
+  seoTitle: "Airport Transfers & Tours in Dubai, UAE | IB Transportation",
   seoDescription:
-    "Book airport pick & drop, hotel transfers, family & group tours, office transport and desert safari rides across the UAE. Sedan, SUV, 7-seater, van, mini van and bus — available 24/7 on WhatsApp.",
+    "24/7 airport transfers, hotel pick & drop, desert safari and UAE tours from Dubai. Sedan to 50-seat bus. Book instantly on WhatsApp: +971 55 745 8352.",
 };
 
 export const fallbackServices: Service[] = [
@@ -392,3 +392,154 @@ export const fallbackFaqs: Faq[] = [
 
 /** Add real customer reviews in Sanity Studio — the section stays hidden until there are some. */
 export const fallbackTestimonials: Testimonial[] = [];
+
+/**
+ * Popular transfer routes — each becomes a landing page at /transfers/<slug>.
+ * Distances and times are approximate (normal traffic) and editable in Sanity.
+ */
+export const fallbackRoutes: TransferRoute[] = [
+  {
+    _id: "route-dubai-airport-to-dubai-marina",
+    slug: "dubai-airport-to-dubai-marina",
+    from: "Dubai Airport (DXB)",
+    to: "Dubai Marina",
+    distanceKm: 35,
+    duration: "30 – 45 min",
+    summary:
+      "Dubai Marina is one of the most popular stops for visitors landing at DXB. The drive follows Sheikh Zayed Road past Downtown and Al Barsha, straight to your hotel, apartment or JBR residence — no taxi queues, no switching between metro lines with luggage.",
+    highlights: ["Direct via Sheikh Zayed Road", "Drop-off at Marina & JBR hotels", "Evening traffic can add 10–15 min"],
+    image: "/images/airport.jpg",
+  },
+  {
+    _id: "route-dubai-airport-to-downtown-dubai",
+    slug: "dubai-airport-to-downtown-dubai",
+    from: "Dubai Airport (DXB)",
+    to: "Downtown Dubai",
+    distanceKm: 15,
+    duration: "15 – 25 min",
+    summary:
+      "Downtown Dubai — home of the Burj Khalifa, Dubai Mall and Business Bay — is just a short drive from DXB. A private transfer gets you from the arrivals hall to your hotel lobby in minutes, ready to start your trip.",
+    highlights: ["Burj Khalifa, Dubai Mall & Business Bay", "One of the shortest airport transfers", "Great for business arrivals"],
+    image: "/images/office.jpg",
+  },
+  {
+    _id: "route-dubai-airport-to-palm-jumeirah",
+    slug: "dubai-airport-to-palm-jumeirah",
+    from: "Dubai Airport (DXB)",
+    to: "Palm Jumeirah",
+    distanceKm: 40,
+    duration: "35 – 50 min",
+    summary:
+      "Heading to a resort on Palm Jumeirah? We drive you from DXB along Sheikh Zayed Road and onto the Palm, right to the door of your hotel on the trunk or the Crescent — with space for beach bags and family luggage.",
+    highlights: ["Door-to-door to Palm resorts", "Room for holiday luggage", "Family-sized vehicles available"],
+    image: "/images/hotel.jpg",
+  },
+  {
+    _id: "route-dubai-airport-to-abu-dhabi",
+    slug: "dubai-airport-to-abu-dhabi",
+    from: "Dubai Airport (DXB)",
+    to: "Abu Dhabi",
+    distanceKm: 140,
+    duration: "1 hr 30 min – 1 hr 45 min",
+    summary:
+      "Flying into Dubai but staying in the capital? Our Dubai Airport to Abu Dhabi transfer takes the E11 highway straight to your hotel, office or home in Abu Dhabi — a comfortable, private alternative to buses and connecting taxis, available day or night.",
+    highlights: ["Intercity ride on the E11", "Stops on request (e.g. Grand Mosque)", "Ideal for families & groups"],
+    image: "/images/uae-tour.jpg",
+  },
+  {
+    _id: "route-dubai-airport-to-sharjah",
+    slug: "dubai-airport-to-sharjah",
+    from: "Dubai Airport (DXB)",
+    to: "Sharjah",
+    distanceKm: 20,
+    duration: "20 – 40 min",
+    summary:
+      "Sharjah sits right next to Dubai Airport, but rush-hour traffic on the Dubai–Sharjah roads can be heavy. A pre-booked transfer means your ride is planned in advance and you go straight to Al Majaz, Al Nahda or anywhere else in Sharjah.",
+    highlights: ["Close to DXB Terminals 1, 2 & 3", "Planned around peak-hour traffic", "Anywhere in Sharjah city"],
+    image: "/images/airport.jpg",
+  },
+  {
+    _id: "route-dubai-airport-to-ajman",
+    slug: "dubai-airport-to-ajman",
+    from: "Dubai Airport (DXB)",
+    to: "Ajman",
+    distanceKm: 30,
+    duration: "30 – 45 min",
+    summary:
+      "Travelling to Ajman's beachfront hotels or residential areas? We take you from DXB through Sharjah to Ajman in a private, air-conditioned vehicle — one simple booking instead of hunting for a taxi willing to cross emirates.",
+    highlights: ["Ajman Corniche & beach hotels", "Cross-emirate made easy", "Sedan to bus for any group"],
+    image: "/images/family.jpg",
+  },
+  {
+    _id: "route-dubai-airport-to-ras-al-khaimah",
+    slug: "dubai-airport-to-ras-al-khaimah",
+    from: "Dubai Airport (DXB)",
+    to: "Ras Al Khaimah",
+    distanceKm: 100,
+    duration: "1 hr 10 min – 1 hr 30 min",
+    summary:
+      "Ras Al Khaimah's beach resorts and mountains are a little over an hour from DXB. A private transfer is the easiest way to get there with luggage — your driver takes you up the Emirates Road straight to your resort or hotel.",
+    highlights: ["Beach resorts & Al Marjan Island", "Jebel Jais trips on request", "Comfortable for longer drives"],
+    image: "/images/desert-safari.jpg",
+  },
+  {
+    _id: "route-dubai-airport-to-fujairah",
+    slug: "dubai-airport-to-fujairah",
+    from: "Dubai Airport (DXB)",
+    to: "Fujairah",
+    distanceKm: 115,
+    duration: "1 hr 15 min – 1 hr 30 min",
+    summary:
+      "Fujairah, on the UAE's east coast, is a scenic drive through the Hajar Mountains from Dubai Airport. We take you to east-coast resorts in Fujairah city, Dibba or Al Aqah in a private vehicle with plenty of room for diving and beach gear.",
+    highlights: ["Scenic mountain drive", "Fujairah, Dibba & Al Aqah resorts", "Space for diving & beach gear"],
+    image: "/images/uae-tour.jpg",
+  },
+  {
+    _id: "route-dubai-airport-to-al-ain",
+    slug: "dubai-airport-to-al-ain",
+    from: "Dubai Airport (DXB)",
+    to: "Al Ain",
+    distanceKm: 140,
+    duration: "1 hr 30 min – 1 hr 45 min",
+    summary:
+      "Al Ain, the UAE's garden city, is about an hour and a half inland from DXB. Our private transfer takes you along the Dubai–Al Ain Road directly to your destination — ideal for families visiting relatives, students and business travellers.",
+    highlights: ["Direct on the Dubai–Al Ain Road", "Great for families & students", "Return trips on request"],
+    image: "/images/groups.jpg",
+  },
+  {
+    _id: "route-abu-dhabi-airport-to-dubai",
+    slug: "abu-dhabi-airport-to-dubai",
+    from: "Abu Dhabi Airport (AUH)",
+    to: "Dubai",
+    distanceKm: 120,
+    duration: "1 hr 10 min – 1 hr 30 min",
+    summary:
+      "Many flights land at Abu Dhabi's Zayed International Airport even when the stay is in Dubai. We pick you up at AUH and drive you up the E11 to your Dubai hotel or home — anywhere from Jebel Ali and Dubai Marina to Downtown and Deira.",
+    highlights: ["Pickup at Zayed International (AUH)", "Anywhere in Dubai", "Ideal for late-night arrivals"],
+    image: "/images/airport.jpg",
+  },
+  {
+    _id: "route-al-maktoum-airport-to-dubai-marina",
+    slug: "al-maktoum-airport-to-dubai-marina",
+    from: "Al Maktoum Airport (DWC)",
+    to: "Dubai Marina",
+    distanceKm: 30,
+    duration: "25 – 35 min",
+    summary:
+      "Dubai World Central – Al Maktoum Airport is closest to the south of the city. From DWC, Dubai Marina, JBR and the Palm are a short drive away — a private transfer is the simplest way to get there, as public transport options from DWC are limited.",
+    highlights: ["Pickup at DWC (Al Maktoum)", "Marina, JBR & Palm hotels", "Limited public transport — book ahead"],
+    image: "/images/night-drive.jpg",
+  },
+  {
+    _id: "route-sharjah-airport-to-dubai",
+    slug: "sharjah-airport-to-dubai",
+    from: "Sharjah Airport (SHJ)",
+    to: "Dubai",
+    distanceKm: 35,
+    duration: "30 – 50 min",
+    summary:
+      "Sharjah International Airport is a popular hub for budget flights into the UAE. We pick you up at SHJ and drive you into Dubai — Deira, Downtown, Al Barsha or beyond — planning around the busy Sharjah–Dubai traffic so you arrive relaxed.",
+    highlights: ["Pickup at Sharjah Airport (SHJ)", "Anywhere in Dubai", "Planned around peak traffic"],
+    image: "/images/city-lights.jpg",
+  },
+];

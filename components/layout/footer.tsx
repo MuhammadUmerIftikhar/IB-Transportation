@@ -2,14 +2,14 @@ import { Clock3, Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { telUrl, whatsappUrl } from "@/lib/contact";
 import { navLinks } from "@/lib/site";
-import type { Service, SiteSettings } from "@/lib/types";
+import type { Service, SiteSettings, TransferRoute } from "@/lib/types";
 import { Logo } from "../logo";
 import { BookNowButton } from "../ui/buttons";
 import { FacebookIcon, InstagramIcon, TikTokIcon, YouTubeIcon } from "../ui/social-icons";
 import { WhatsAppIcon } from "../ui/whatsapp-icon";
 import { FooterWordmark } from "./footer-wordmark";
 
-export function Footer({ settings, services }: { settings: SiteSettings; services: Service[] }) {
+export function Footer({ settings, services, routes }: { settings: SiteSettings; services: Service[]; routes: TransferRoute[] }) {
   const socials = [
     { href: settings.socialLinks.facebook, label: "Facebook", icon: FacebookIcon },
     { href: settings.socialLinks.instagram, label: "Instagram", icon: InstagramIcon },
@@ -23,7 +23,7 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
       <div className="pointer-events-none absolute -bottom-40 left-1/2 h-80 w-[60rem] -translate-x-1/2 rounded-full bg-gold-500/10 blur-3xl" />
 
       <div className="container-x relative">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1.15fr_0.8fr_1.15fr]">
           <div>
             <Logo name={settings.companyName} />
             <p className="mt-5 max-w-xs leading-relaxed text-white/60">{settings.tagline}.</p>
@@ -61,6 +61,24 @@ export function Footer({ settings, services }: { settings: SiteSettings; service
                   </Link>
                 </li>
               ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-display text-sm font-semibold tracking-[0.18em] text-gold-400 uppercase">Popular transfers</h3>
+            <ul className="mt-5 space-y-3">
+              {routes.slice(0, 6).map((route) => (
+                <li key={route._id}>
+                  <Link href={`/transfers/${route.slug}`} className="text-white/65 transition-colors hover:text-white">
+                    {route.from.replace(/s*(.*)/, "")} → {route.to}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link href="/transfers" className="font-medium text-gold-300 transition-colors hover:text-gold-200">
+                  All transfer routes →
+                </Link>
+              </li>
             </ul>
           </div>
 

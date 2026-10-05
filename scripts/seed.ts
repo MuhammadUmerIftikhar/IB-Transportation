@@ -10,7 +10,7 @@
 import { createReadStream } from "node:fs";
 import path from "node:path";
 import { getCliClient } from "sanity/cli";
-import { fallbackFaqs, fallbackServices, fallbackSettings, fallbackVehicles } from "../lib/fallback";
+import { fallbackFaqs, fallbackRoutes, fallbackServices, fallbackSettings, fallbackVehicles } from "../lib/fallback";
 import type { ImageAsset } from "../lib/types";
 
 const client = getCliClient({ apiVersion: "2025-09-01" });
@@ -75,6 +75,17 @@ async function main() {
       order: (i + 1) * 10,
     });
     if (photo) photoPatches.push({ _id, image: photo, facing: vehicle.facing });
+  }
+
+  for (const [i, { _id, slug, image, ...route }] of fallbackRoutes.entries()) {
+    docs.push({
+      _id,
+      _type: "route",
+      ...route,
+      slug: { _type: "slug", current: slug },
+      ...(image ? { image: await uploadImage(image, `${route.from} to ${route.to}`) } : {}),
+      order: (i + 1) * 10,
+    });
   }
 
   for (const [i, { _id, ...faq }] of fallbackFaqs.entries()) {

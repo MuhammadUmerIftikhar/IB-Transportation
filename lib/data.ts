@@ -3,6 +3,7 @@ import { cache } from "react";
 import { client } from "@/sanity/lib/client";
 import {
   faqsQuery,
+  routesQuery,
   servicesQuery,
   settingsQuery,
   testimonialsQuery,
@@ -10,12 +11,13 @@ import {
 } from "@/sanity/lib/queries";
 import {
   fallbackFaqs,
+  fallbackRoutes,
   fallbackServices,
   fallbackSettings,
   fallbackTestimonials,
   fallbackVehicles,
 } from "./fallback";
-import type { Faq, Service, SiteSettings, Testimonial, Vehicle } from "./types";
+import type { Faq, Service, SiteSettings, Testimonial, TransferRoute, Vehicle } from "./types";
 
 /** How often (seconds) published Sanity content is picked up without a webhook. */
 export const REVALIDATE_SECONDS = 60;
@@ -81,4 +83,14 @@ export const getFaqs = cache(async (): Promise<Faq[]> => {
 export const getTestimonials = cache(async (): Promise<Testimonial[]> => {
   const data = await sanityFetch<Testimonial[]>(testimonialsQuery, ["testimonial"]);
   return orFallback(data, fallbackTestimonials);
+});
+
+export const getRoutes = cache(async (): Promise<TransferRoute[]> => {
+  const data = await sanityFetch<TransferRoute[]>(routesQuery, ["route"]);
+  return orFallback(data, fallbackRoutes).map((route) => ({ ...route, highlights: route.highlights ?? [] }));
+});
+
+export const getRoute = cache(async (slug: string): Promise<TransferRoute | null> => {
+  const routes = await getRoutes();
+  return routes.find((route) => route.slug === slug) ?? null;
 });

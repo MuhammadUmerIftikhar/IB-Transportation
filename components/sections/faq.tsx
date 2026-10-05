@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { useId, useState } from "react";
 import type { Faq as FaqItem } from "@/lib/types";
@@ -41,20 +41,18 @@ function Item({ faq, open, onToggle, index }: { faq: FaqItem; open: boolean; onT
           </motion.span>
         </button>
       </h3>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            id={id}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: easeOut }}
-            className="overflow-hidden"
-          >
-            <p className="px-6 pb-6 leading-relaxed text-ink-700/75">{faq.answer}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Answers stay in the HTML even when collapsed, so search engines and AI crawlers read every one */}
+      <motion.div
+        id={id}
+        role="region"
+        initial={false}
+        animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
+        transition={{ duration: 0.4, ease: easeOut }}
+        className="overflow-hidden"
+        aria-hidden={!open}
+      >
+        <p className="px-6 pb-6 leading-relaxed text-ink-700/75">{faq.answer}</p>
+      </motion.div>
     </motion.div>
   );
 }

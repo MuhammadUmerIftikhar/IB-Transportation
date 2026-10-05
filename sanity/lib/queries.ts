@@ -12,12 +12,16 @@ export const settingsQuery = defineQuery(`*[_type == "siteSettings"][0]{
 
 export const servicesQuery = defineQuery(`*[_type == "service" && defined(slug.current)] | order(order asc, _createdAt asc){
   _id, title, "slug": slug.current, icon, shortDescription, image${image},
-  highlights, body, whatsappMessage
+  highlights, body, whatsappMessage, _updatedAt
 }`);
 
 export const vehiclesQuery = defineQuery(`*[_type == "vehicle"] | order(order asc, passengers asc){
   _id, name, "slug": slug.current, type, tagline, passengers, luggage, models,
   description, features, image${image}, facing
+}`);
+
+export const routesQuery = defineQuery(`*[_type == "route" && defined(slug.current)] | order(order asc, _createdAt asc){
+  _id, "slug": slug.current, from, to, distanceKm, duration, summary, highlights, image${image}, _updatedAt
 }`);
 
 export const faqsQuery = defineQuery(`*[_type == "faq"] | order(order asc, _createdAt asc){

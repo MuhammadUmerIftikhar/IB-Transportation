@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import { getSettings } from "@/lib/data";
-import { siteUrl } from "@/lib/site";
+import { openGraphFor, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -34,14 +34,20 @@ export async function generateMetadata(): Promise<Metadata> {
       "group transport UAE",
       "office staff transport Dubai",
     ],
-    openGraph: {
-      type: "website",
-      siteName: settings.companyName,
-      title: settings.seoTitle,
-      description: settings.seoDescription,
-      locale: "en_AE",
+    openGraph: openGraphFor({ title: settings.seoTitle, description: settings.seoDescription, path: "/", siteName: settings.companyName }),
+    // title/description/image fall back to each page's Open Graph tags
+    twitter: { card: "summary_large_image" },
+    // Let Google (incl. AI Overviews) show long text snippets and large image previews
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large", "max-video-preview": -1 },
     },
-    twitter: { card: "summary_large_image", title: settings.seoTitle, description: settings.seoDescription },
+    // Optional: paste verification codes from Google Search Console / Bing Webmaster Tools into Vercel env vars
+    verification: {
+      ...(process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : {}),
+      ...(process.env.BING_SITE_VERIFICATION ? { other: { "msvalidate.01": process.env.BING_SITE_VERIFICATION } } : {}),
+    },
   };
 }
 

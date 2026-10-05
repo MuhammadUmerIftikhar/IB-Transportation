@@ -76,10 +76,19 @@ export function QuickBooking({
   services,
   vehicles,
   defaultService,
+  defaultPickup = "",
+  defaultDropoff = "",
   title = "Book your ride",
   subtitle = "Fill in your trip — we'll open WhatsApp with everything ready to send.",
   className = "",
-}: BookingOptions & { defaultService?: string; title?: string; subtitle?: string; className?: string }) {
+}: BookingOptions & {
+  defaultService?: string;
+  defaultPickup?: string;
+  defaultDropoff?: string;
+  title?: string;
+  subtitle?: string;
+  className?: string;
+}) {
   const site = useSite();
   const controls = useAnimationControls();
   const formId = useId();
@@ -87,8 +96,8 @@ export function QuickBooking({
   const [vehicle, setVehicle] = useState("");
   const [vehicleTouched, setVehicleTouched] = useState(false);
   const [passengers, setPassengers] = useState(2);
-  const [pickup, setPickup] = useState("");
-  const [dropoff, setDropoff] = useState("");
+  const [pickup, setPickup] = useState(defaultPickup);
+  const [dropoff, setDropoff] = useState(defaultDropoff);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [name, setName] = useState("");

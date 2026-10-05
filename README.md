@@ -61,3 +61,16 @@ sanity/schemaTypes/    Content model
 ## Image credits
 
 Photos in `public/images` (including the vehicle cut-outs in `public/images/fleet`) are from [Unsplash](https://unsplash.com) and [Pexels](https://www.pexels.com) under their free licenses (commercial use allowed, no attribution required). Vehicle backgrounds were removed and licence plates blurred. Replace them with photos of your own fleet any time via Sanity — set "Photo faces" so the vehicle drives in the right way.
+
+## SEO & AI search (built in, runs automatically)
+
+- **Transfer route pages** — every *Transfer route* in Sanity becomes a landing page at `/transfers/<slug>` (e.g. *Dubai Airport to Abu Dhabi Transfer*) with its own title, description, FAQ, booking form pre-filled with the route, and structured data. Add a route in the Studio → the page, sitemap entry and search-engine ping happen on their own. Write a unique 2–3 sentence summary for each — unique content is what ranks.
+- **Structured data (schema.org)** on every page: Organization, WebSite, LocalBusiness (24/7 hours, all 7 emirates, services and fleet), Service, BreadcrumbList and FAQPage — how Google, AI Overviews and AI assistants understand the business.
+- **Sitemap** (`/sitemap.xml`) with real last-modified dates from Sanity, **robots.txt**, canonical URLs and full social previews on every page.
+- **`/llms.txt`** — a plain-text fact sheet for AI assistants, generated from Sanity.
+- **IndexNow** — on every publish, the Sanity webhook tells Bing (which powers Copilot and ChatGPT search), Yandex and others exactly which pages changed. Run `npm run indexnow` to submit every URL at once (e.g. after a launch).
+
+**One-time setup** (needed for the automation to report to you):
+1. **Google Search Console** — add `https://www.ib-transportation.com` (DNS or HTML-tag verification via `GOOGLE_SITE_VERIFICATION`), then submit `https://www.ib-transportation.com/sitemap.xml`.
+2. **Bing Webmaster Tools** — sign in and *Import from Google Search Console* (or use `BING_SITE_VERIFICATION`).
+3. **Sanity webhook** — sanity.io/manage → API → Webhooks: URL `https://www.ib-transportation.com/api/revalidate`, trigger on create/update/delete, projection `{_type, "slug": slug.current}`, secret = `SANITY_REVALIDATE_SECRET` (set the same value in Vercel).

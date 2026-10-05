@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "seed": "sanity exec scripts/seed.ts --with-user-token"
+    "seed": "sanity exec scripts/seed.ts --with-user-token",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@sanity/image-url": "^2.1.1",

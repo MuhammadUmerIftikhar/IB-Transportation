@@ -1,4 +1,4 @@
-import { CarFront, CircleHelp, MessageSquareQuote, Route, Settings } from "lucide-react";
+import { CarFront, CircleHelp, MapPinned, MessageSquareQuote, Route, Settings } from "lucide-react";
 import type { StructureResolver } from "sanity/structure";
 
 export const structure: StructureResolver = (S) =>
@@ -12,6 +12,7 @@ export const structure: StructureResolver = (S) =>
         .child(S.document().schemaType("siteSettings").documentId("siteSettings")),
       S.divider(),
       S.documentTypeListItem("service").title("Services").icon(Route),
+      S.documentTypeListItem("route").title("Transfer routes").icon(MapPinned),
       S.documentTypeListItem("vehicle").title("Fleet").icon(CarFront),
       S.divider(),
       S.documentTypeListItem("faq").title("FAQs").icon(CircleHelp),
