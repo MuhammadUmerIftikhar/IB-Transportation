@@ -103,8 +103,8 @@ export const fallbackSettings: SiteSettings = {
     "Palm Jumeirah",
   ],
   socialLinks: {
-    facebook: "https://www.facebook.com/profile.php?id=61553425708288",
-    instagram: "https://www.instagram.com/ibcarpool/",
+    facebook: "https://www.facebook.com/share/1Cp6ujHhH7/?mibextid=wwXIfr",
+    instagram: "https://www.instagram.com/ibcarpool?stkn=MXJ2amhrenppNGM0bQ==",
   },
   seoTitle: "IB Transportation | Airport Transfers & Tours in Dubai, UAE",
   seoDescription:
