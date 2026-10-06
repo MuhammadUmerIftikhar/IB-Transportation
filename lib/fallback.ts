@@ -102,7 +102,10 @@ export const fallbackSettings: SiteSettings = {
     "Dubai Marina",
     "Palm Jumeirah",
   ],
-  socialLinks: {},
+  socialLinks: {
+    facebook: "https://www.facebook.com/profile.php?id=61553425708288",
+    instagram: "https://www.instagram.com/ibcarpool/",
+  },
   seoTitle: "IB Transportation | Airport Transfers & Tours in Dubai, UAE",
   seoDescription:
     "24/7 airport transfers, hotel pick & drop, desert safari and UAE tours from Dubai. Sedan to 50-seat bus. Book instantly on WhatsApp: +971 55 745 8352.",

@@ -27,6 +27,9 @@ export async function GET() {
     "- Coverage: all UAE emirates — Dubai, Abu Dhabi, Sharjah, Ajman, Ras Al Khaimah, Fujairah, Umm Al Quwain — and all major airports (DXB, DWC, AUH, SHJ)",
     `- Fleet: ${vehicles.map((v) => `${v.name} (up to ${v.passengers} passengers)`).join(", ")}`,
     `- Website: ${siteUrl}`,
+    ...Object.entries(settings.socialLinks)
+      .filter(([, url]) => url)
+      .map(([network, url]) => `- ${network.charAt(0).toUpperCase() + network.slice(1)}: ${url}`),
     "",
     "## Key pages",
     `- [About ${settings.companyName}](${siteUrl}/about)`,
