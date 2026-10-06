@@ -11,7 +11,7 @@ import { CmsImage } from "../ui/cms-image";
 import { easeOut } from "../ui/reveal";
 import { type BookingOptions, QuickBooking } from "./quick-booking";
 
-type HeroSettings = Pick<SiteSettings, "heroBadge" | "heroTitle" | "heroRotatingWords" | "heroSubtitle" | "heroImage" | "availability">;
+type HeroSettings = Pick<SiteSettings, "companyName" | "heroBadge" | "heroTitle" | "heroRotatingWords" | "heroSubtitle" | "heroImage" | "availability">;
 
 function RotatingWord({ words }: { words: string[] }) {
   const [index, setIndex] = useState(0);
@@ -99,6 +99,16 @@ export function Hero({ settings, booking }: { settings: HeroSettings; booking: B
           </motion.p>
 
           <h1 className="mt-6 font-display text-[clamp(2.2rem,9vw,2.75rem)] leading-[1.04] font-extrabold tracking-tight sm:text-6xl lg:text-[3.6rem] xl:text-[4.1rem]">
+            {/* Brand name inside the H1: helps the site rank for a search of the company name itself */}
+            <motion.span
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15, ease: easeOut }}
+              className="mb-3 block font-display text-base font-bold tracking-[0.22em] text-gold-300 uppercase sm:text-lg"
+            >
+              {settings.companyName}
+              <span className="sr-only">: </span>
+            </motion.span>
             <span className="block">
               {words.map((word, i) => (
                 <span key={i} className="inline-block overflow-hidden pb-1 align-bottom">

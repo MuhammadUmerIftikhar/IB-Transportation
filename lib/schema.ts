@@ -15,6 +15,9 @@ export const ids = {
 
 const emirates = ["Dubai", "Abu Dhabi", "Sharjah", "Ajman", "Ras Al Khaimah", "Fujairah", "Umm Al Quwain"];
 
+/** Other ways people write the brand; helps Google connect them to this business. */
+const alternateNames = (name: string) => [`${name} Dubai`, `${name} UAE`, name.replace(/\s+/g, "")];
+
 const abs = (path: string) => (path.startsWith("http") ? path : `${siteUrl}${path}`);
 
 /** Site-wide graph: Organization + WebSite + LocalBusiness (with services & fleet). */
@@ -30,6 +33,8 @@ export function siteSchema(settings: SiteSettings, services: Service[], vehicles
         "@type": "Organization",
         "@id": ids.organization,
         name: settings.companyName,
+        alternateName: alternateNames(settings.companyName),
+        description: settings.seoDescription,
         url: siteUrl,
         logo,
         telephone: phone,
@@ -54,6 +59,7 @@ export function siteSchema(settings: SiteSettings, services: Service[], vehicles
         "@id": ids.website,
         url: siteUrl,
         name: settings.companyName,
+        alternateName: [...alternateNames(settings.companyName), "ib-transportation.com"],
         description: settings.seoDescription,
         publisher: { "@id": ids.organization },
         inLanguage: "en",
@@ -62,6 +68,8 @@ export function siteSchema(settings: SiteSettings, services: Service[], vehicles
         "@type": "LocalBusiness",
         "@id": ids.business,
         name: settings.companyName,
+        alternateName: alternateNames(settings.companyName),
+        ...(sameAs.length ? { sameAs } : {}),
         description: settings.seoDescription,
         slogan: settings.tagline,
         url: siteUrl,

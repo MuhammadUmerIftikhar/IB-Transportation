@@ -14,6 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     { url: siteUrl, lastModified: latest([...services, ...routes].map((d) => d._updatedAt)), changeFrequency: "weekly", priority: 1 },
+    { url: `${siteUrl}/about`, lastModified: latest(services.map((d) => d._updatedAt)), changeFrequency: "monthly", priority: 0.7 },
     {
       url: `${siteUrl}/transfers`,
       lastModified: latest(routes.map((r) => r._updatedAt)),

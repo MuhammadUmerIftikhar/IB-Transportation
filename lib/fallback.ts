@@ -103,7 +103,7 @@ export const fallbackSettings: SiteSettings = {
     "Palm Jumeirah",
   ],
   socialLinks: {},
-  seoTitle: "Airport Transfers & Tours in Dubai, UAE | IB Transportation",
+  seoTitle: "IB Transportation | Airport Transfers & Tours in Dubai, UAE",
   seoDescription:
     "24/7 airport transfers, hotel pick & drop, desert safari and UAE tours from Dubai. Sedan to 50-seat bus. Book instantly on WhatsApp: +971 55 745 8352.",
 };

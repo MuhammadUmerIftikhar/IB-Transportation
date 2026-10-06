@@ -31,7 +31,7 @@ function RotatingBadge({ text }: { text: string }) {
   );
 }
 
-export function WhyUs({ features, stats }: { features: Feature[]; stats: Stat[] }) {
+export function WhyUs({ features, stats, companyName }: { features: Feature[]; stats: Stat[]; companyName: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const bigY = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
@@ -80,9 +80,9 @@ export function WhyUs({ features, stats }: { features: Feature[]; stats: Stat[] 
         <div>
           <SectionHeading
             align="left"
-            eyebrow="Why choose us"
-            title="Travel the UAE"
-            highlight="the easy way"
+            eyebrow="Why us"
+            title="Why travellers choose"
+            highlight={companyName}
             description="Whether it's a quick hotel drop or a week of group tours, we keep things simple, comfortable and reliable."
           />
           <Stagger className="mt-10 grid gap-4 sm:grid-cols-2" stagger={0.08}>

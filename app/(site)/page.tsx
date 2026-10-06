@@ -37,6 +37,7 @@ export default async function HomePage() {
       <JsonLd data={faqSchema(faqs)} />
       <Hero
         settings={{
+          companyName: settings.companyName,
           heroBadge: settings.heroBadge,
           heroTitle: settings.heroTitle,
           heroRotatingWords: settings.heroRotatingWords,
@@ -54,7 +55,7 @@ export default async function HomePage() {
       <Fleet vehicles={vehicles} />
       <PopularRoutes routes={routes} />
       <HowItWorks />
-      <WhyUs features={settings.whyChooseUs} stats={settings.stats} />
+      <WhyUs features={settings.whyChooseUs} stats={settings.stats} companyName={settings.companyName} />
       <TourBanner exploreHref={tours ? `/services/${tours.slug}` : undefined} />
       <Testimonials testimonials={testimonials} />
       <Faq faqs={faqs} />
