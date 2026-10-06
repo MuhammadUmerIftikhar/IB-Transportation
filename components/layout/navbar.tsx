@@ -13,28 +13,9 @@ import { BookNowButton } from "../ui/buttons";
 import { easeOut } from "../ui/reveal";
 import { WhatsAppIcon } from "../ui/whatsapp-icon";
 
-const sectionIds = navLinks.map((link) => link.href.split("#")[1]);
-
-function useActiveSection(enabled: boolean) {
-  const [active, setActive] = useState<string | null>(null);
-  useEffect(() => {
-    if (!enabled) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          // The hero ("top") clears the highlight; sections without a nav link keep the last one.
-          if (entry.isIntersecting) setActive(entry.target.id === "top" ? null : entry.target.id);
-        }
-      },
-      { rootMargin: "-45% 0px -50% 0px" },
-    );
-    for (const id of ["top", ...sectionIds]) {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    }
-    return () => observer.disconnect();
-  }, [enabled]);
-  return enabled ? active : null;
+/** The menu item for the current page (e.g. /services/airport-transfer → Services). */
+function activeLink(pathname: string) {
+  return navLinks.find((link) => pathname === link.href || pathname.startsWith(`${link.href}/`))?.href ?? null;
 }
 
 export function Navbar() {
@@ -45,7 +26,7 @@ export function Navbar() {
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
-  const active = useActiveSection(pathname === "/");
+  const active = activeLink(pathname);
 
   useMotionValueEvent(scrollY, "change", (y) => {
     const previous = scrollY.getPrevious() ?? 0;
@@ -121,11 +102,12 @@ export function Navbar() {
 
             <ul className="hidden items-center gap-1 lg:flex" onMouseLeave={() => setHovered(null)}>
               {navLinks.map((link) => {
-                const id = link.href.split("#")[1];
+                const id = link.href;
                 return (
                   <li key={link.href} className="relative">
                     <Link
                       href={link.href}
+                      aria-current={active === id ? "page" : undefined}
                       onMouseEnter={() => setHovered(id)}
                       className={`relative z-10 block rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                         highlighted === id ? "text-ink-950" : "text-white/80 hover:text-white"

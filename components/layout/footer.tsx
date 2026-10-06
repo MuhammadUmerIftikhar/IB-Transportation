@@ -85,11 +85,6 @@ export function Footer({ settings, services, routes }: { settings: SiteSettings;
           <div>
             <h3 className="font-display text-sm font-semibold tracking-[0.18em] text-gold-400 uppercase">Explore</h3>
             <ul className="mt-5 space-y-3">
-              <li>
-                <Link href="/about" className="text-white/65 transition-colors hover:text-white">
-                  About us
-                </Link>
-              </li>
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-white/65 transition-colors hover:text-white">

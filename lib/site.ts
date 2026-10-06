@@ -21,11 +21,12 @@ export function openGraphFor({ title, description, path, siteName }: { title: st
   };
 }
 
+/** Main menu: each item is its own page, so search engines can list them individually (and as sitelinks). */
 export const navLinks = [
-  { label: "Services", href: "/#services" },
-  { label: "Fleet", href: "/#fleet" },
-  { label: "How it works", href: "/#how-it-works" },
-  { label: "Why us", href: "/#why-us" },
-  { label: "FAQ", href: "/#faq" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Services", href: "/services" },
+  { label: "Fleet", href: "/fleet" },
+  { label: "Transfers", href: "/transfers" },
+  { label: "About", href: "/about" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Contact", href: "/contact" },
 ];

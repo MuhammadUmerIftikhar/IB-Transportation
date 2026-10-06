@@ -70,7 +70,7 @@ export default async function ServicePage({ params }: Props) {
       <JsonLd
         data={breadcrumbSchema([
           { name: "Home", path: "/" },
-          { name: "Services", path: "/#services" },
+          { name: "Services", path: "/services" },
           { name: service.title, path },
         ])}
       />

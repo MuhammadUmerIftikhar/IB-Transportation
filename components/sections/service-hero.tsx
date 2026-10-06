@@ -46,7 +46,7 @@ export function ServiceHero({ service }: { service: Pick<Service, "title" | "sho
             Home
           </Link>
           <ChevronRight className="size-4" aria-hidden />
-          <Link href="/#services" className="hover:text-white">
+          <Link href="/services" className="hover:text-white">
             Services
           </Link>
           <ChevronRight className="size-4" aria-hidden />

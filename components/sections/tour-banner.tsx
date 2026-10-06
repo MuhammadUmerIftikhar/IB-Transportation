@@ -13,7 +13,7 @@ import { useLiteMotion } from "../ui/use-lite-motion";
 
 const chips = ["Hotel & home pickup", "Sunset dune drives", "Families & groups", "All 7 emirates"];
 
-export function TourBanner({ exploreHref = "/#services" }: { exploreHref?: string }) {
+export function TourBanner({ exploreHref = "/services" }: { exploreHref?: string }) {
   const site = useSite();
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
